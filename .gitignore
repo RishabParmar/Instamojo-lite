@@ -1,2 +1,4 @@
 node_modules
 credentials.js
+paymentDetails.json
+refundsDetails.json

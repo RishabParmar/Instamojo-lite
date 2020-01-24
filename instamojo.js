@@ -2,6 +2,8 @@ const rx = require('rxjs');
 const instamojoAPI = require('instamojo-nodejs');
 const authToken = require('./credentials');
 const operators = require('rxjs/operators');
+const fs = require('fs')
+const { rxToStream } = require('rxjs-stream');
 
 function authorizeUser(authToken){
     if(!authToken){
@@ -14,7 +16,7 @@ function authorizeUser(authToken){
 function getPaymentDetails(authToken){
     if(authorizeUser(authToken)){
         return rx.from(new Promise((resolve, reject) => {
-            instamojoAPI.getAllPayments(function (error, response) {            
+            instamojoAPI.getAllPaymentRequests(function (error, response) {            
                 if(error){ reject(error); }            
                 else{ resolve(response); }
             })
@@ -51,10 +53,24 @@ function getSingleRefundDetails(refundId, authToken){
 }
 
 const allPayments$ = getPaymentDetails(authToken);
-allPayments$.subscribe(console.log);
+// allPayments$.subscribe(console.log);
+
+// For writing to a file
+// var fsStream = fs.createWriteStream('paymentDetails.json', 'utf-8');
+// rxToStream(allPayments$.pipe(
+//     operators.toArray(),
+//     operators.map(value => JSON.stringify(value))))
+// .pipe(fsStream);
 
 const allRefunds$ = getRefundDetails(authToken);
 allRefunds$.subscribe(console.log);
 
-const singleRefundDetails$ = getSingleRefundDetails('C9c0154657', authToken);
-singleRefundDetails$.subscribe(console.log);
+// For writing to a file
+// fsStream = fs.createWriteStream('refundsDetails.json', 'utf-8');
+// rxToStream(allRefunds$.pipe(
+//     operators.toArray(),
+//     operators.map(value => JSON.stringify(value))))
+// .pipe(fsStream);
+
+// const singleRefundDetails$ = getSingleRefundDetails('C9c0154657', authToken);
+// singleRefundDetails$.subscribe(console.log);

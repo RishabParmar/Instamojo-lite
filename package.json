@@ -18,6 +18,7 @@
   "homepage": "https://github.com/RishabParmar/Instamojo-lite#readme",
   "dependencies": {
     "instamojo-nodejs": "0.0.5",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "rxjs-stream": "^3.1.1"
   }
 }
